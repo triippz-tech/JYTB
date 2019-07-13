@@ -18,6 +18,7 @@
 
 package com.triippztech.app.services;
 
+import com.triippztech.app.exceptions.NoSuchTitleException;
 import com.triippztech.app.models.Constants;
 import com.triippztech.app.models.Driver;
 import com.triippztech.app.models.Proxies;
@@ -119,6 +120,10 @@ public class BotWorker implements Runnable {
         Log.WINFO(this.workerName, this.workerColor, "Chrome Driver Set.");
     }
 
+    /**
+     * Sets the webdriver to FireFox. We set our optimal parameters here
+     * to ensure our proxy is set correctly.
+     */
     private void setFirefoxDriver() {
         FirefoxOptions options = new FirefoxOptions();
         FirefoxProfile profile = new FirefoxProfile();
@@ -148,7 +153,15 @@ public class BotWorker implements Runnable {
         Log.WINFO(this.workerName, this.workerColor, "Firefox Driver Set");
     }
 
-    private int setVideo() throws InterruptedException, ElementClickInterceptedException {
+    /**
+     * Prior to watching the video, we need to set our worker up, with an accurate watch time. Meaning
+     * We need to calculate where our current watch position is at in the video, use that current value
+     * or how long we want to watch for, to determine how long our thread needs to sleep for (aka "watching").
+     * @return watchTime (in millis)
+     * @throws ElementClickInterceptedException
+     * @throws NoSuchTitleException Our page doesnt end with YouTube, maybe there is an incorrect URL
+     */
+    private int setVideo() throws ElementClickInterceptedException, NoSuchTitleException {
         this.webDriver.get(this.videoUrl);
 
         if ( this.webDriver.getTitle().endsWith("YouTube") )
@@ -161,21 +174,27 @@ public class BotWorker implements Runnable {
                 throw new ElementClickInterceptedException(e.getMessage());
             }
 
+            String currentVideoTime = this.webDriver.findElement(By.className("ytp-time-current")).getAttribute("innerHTML");
+            String totalVideoTime = this.webDriver.findElement(By.className("ytp-time-duration")).getAttribute("innerHTML");
             if (this.watchLength == -1) {
-                String currentTime = this.webDriver.findElement(By.className("ytp-time-current")).getAttribute("innerHTML");
-                String videoLen = this.webDriver.findElement(By.className("ytp-time-duration")).getAttribute("innerHTML");
-                Integer watchTime = calculateWatchTime( currentTime, videoLen );
-                Log.WINFO(workerName, workerColor,"Starting video");
-                return watchTime;
-
+                return calculateWatchTime( currentVideoTime, totalVideoTime );
             } else {
-                return 1;
+                return this.watchLength * 1000;
             }
         } else {
-            return 1;
+            throw new NoSuchTitleException(String.format("Title does not end with YouTube, please ensure you have " +
+                    "provided the correct URL to the video. Actual title: %s", this.webDriver.getTitle()));
         }
     }
 
+    /**
+     * Utility to calculate how long our watch time is for. We calculate our current viewing position
+     * (the current watch time in the video), and subtract that from the total length of the video.
+     * Convert the seconds into millis for our Thread.Sleep
+     * @param currentTime Current position our worker is at
+     * @param videoLength The total lengtht of the video
+     * @return watchTime in millis
+     */
     private Integer calculateWatchTime ( String currentTime, String videoLength )
     {
         int[] curHMS =  Stream.of(currentTime.split(":")).mapToInt(Integer::parseInt).toArray();
@@ -196,6 +215,10 @@ public class BotWorker implements Runnable {
     }
 
     @SuppressWarnings("Duplicates")
+    /**
+     * Resets the workers(bot's) webDriver parameters, rotates our proxies to obtain a new
+     * fresh IP, and ensures our last drivers process has been closed out.
+     */
     private void resetBot()
     {
         Log.WINFO(workerName, workerColor, "Resetting Bot");
@@ -219,6 +242,9 @@ public class BotWorker implements Runnable {
         }
     }
 
+    /**
+     * Provides a status message of our current worker
+     */
     private void status()
     {
         StringBuilder builder = new StringBuilder()
