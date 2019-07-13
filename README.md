@@ -1,4 +1,4 @@
-<p align="center"><img width=12.5% src="https://github.com/triippz-tech/JYTB/tree/master/docs/images/jytb-logo-wide.png"></p>
+<p align="center"><img width=100% height=35% src="https://triippz-tech.github.io/JYTB/images/jytb-logo.png"></p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![Java](https://img.shields.io/badge/JDK-11+-blue.svg)
@@ -13,7 +13,7 @@
 JYTB is a multi-threaded Java application, which "views" a given YouTube video. The bot auto-rotates proxies if a proxy
 has been determined to be dead, compromised, or the bot has finished watching the video. The goal is to provide unique 
 views to a YouTube video.
-<p align="center"><img width=95% src="https://github.com/triippz-tech/JYTB/tree/master/docs/images/run-example.png"></p>
+<p align="center"><img width=95% src="https://triippz-tech.github.io/JYTB/images/run-example.png"></p>
 
 <br>
 
