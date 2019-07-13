@@ -1,4 +1,4 @@
-<p align="center"><img width=100% height=35% src="https://triippz-tech.github.io/JYTB/images/jytb-logo.png"></p>
+<p align="center"><img width=100% height=15% src="https://triippz-tech.github.io/JYTB/images/jytb-logo.png"></p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![Java](https://img.shields.io/badge/JDK-11+-blue.svg)
