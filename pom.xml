@@ -30,13 +30,13 @@
     <name>JYTB</name>
     <url>https://github.com/triippz-tech/JYTB</url>
     <description>
-        A java library for the Giphy API.
+        A Java-based YouTube Viewer Bot
     </description>
 
     <licenses>
         <license>
-            <name>MIT</name>
-            <url>https://opensource.org/licenses/MIT</url>
+            <name>GNU General Public License version 3</name>
+            <url>https://opensource.org/licenses/GPL-3.0</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
