@@ -25,7 +25,7 @@ and issues which still need to be ironed out. The project should have it's first
 TDB - Will update upon first release
 
 ## Contributing
-Please take a look at our [contributing](https://github.com/triippz-tech/docs/CONTRIBUTING.md) guidelines if you're interested in helping!
+Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/blob/master/docs/CONTRIBUTING.md) guidelines if you're interested in helping!
 #### Pending Features
 - Free Proxy Options
 - Paid Proxy Options
