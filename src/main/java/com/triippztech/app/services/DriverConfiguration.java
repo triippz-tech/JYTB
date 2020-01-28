@@ -32,8 +32,8 @@ public class DriverConfiguration {
     private final static String SAFARI_MAC = "/Applications/Safari.app";
 
     // WINDOWS
-    private final static String FIREFOX_WIN_32 = "C:\\Program Files (x86)\\Mozilla Firefox\\";
-    private final static String FIREFOX_WIN_64 = "C:\\Program Files\\Mozilla Firefox\\";
+    private final static String FIREFOX_WIN_32 = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe";
+    private final static String FIREFOX_WIN_64 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
     private final static String CHROME_WIN_32 = "";
     private final static String CHROME_WIN_64 = "";
     private final static String EDGE_WIN_64 = "";
@@ -86,7 +86,7 @@ public class DriverConfiguration {
 
     public static File getDriver()
     {
-        return new File(FIREFOX_MAC);
+        return new File(FIREFOX_WIN_64);
     }
 
 //    public static File getFirefoxDriver()
