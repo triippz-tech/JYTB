@@ -32,6 +32,7 @@ import org.openqa.selenium.Proxy;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 
 public class Proxies {
     private final String protoType = "https";
@@ -96,26 +97,36 @@ public class Proxies {
         this.proxies = null;
         this.generateProxies();
     }
-
-    private void loadNewProxy()
-    {
+    // fix randomproxy problem
+    private void loadNewProxy() {
+        Log.WWARN(workerName, workerColor,"Load new proxies");
         this.usedProxies.add(this.getCurrentProxyModel());
         Datum proxy = randomProxy();
-        if ( isUsed(proxy) )
-            this.loadNewProxy();
-        else {
-            this.setCurrentProxyModel(proxy);
-            this.setCurrentProxy(proxy);
-        }
+            if ( isUsed(proxy) ) {
+                try {
+                    Log.WWARN(workerName, workerColor,"proxy already used");
+                    Thread.sleep(3000);
+                    Log.WWARN(workerName, workerColor,"Refreshing Proxy list...");
+                    this.refreshProxies();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                this.setCurrentProxyModel(proxy);
+                this.setCurrentProxy(proxy);
+            }
+
     }
+
+
 
     private Boolean isUsed(Datum proxy)
     {
         return usedProxies.contains(proxy);
     }
 
-    private Datum randomProxy()
-    {
+    private Datum randomProxy() {
         return proxies.getData().get(new Random().nextInt(proxies.getData().size()));
     }
 
