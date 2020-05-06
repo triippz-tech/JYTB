@@ -41,6 +41,7 @@ import org.openqa.selenium.remote.CapabilityType;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -81,6 +82,8 @@ public class BotWorker implements Runnable {
         Log.WINFO(this.workerName, this.workerColor, "Initializing. . .");
         this.proxies = new Proxies(this.workerName, this.apiKey, this.workerColor);
         this.userAgent = new UserAgent(this.driverType);
+
+
         switch (this.driverType.name() )
         {
             case Constants.FIREFOX:
@@ -129,7 +132,9 @@ public class BotWorker implements Runnable {
         FirefoxProfile profile = new FirefoxProfile();
         FirefoxBinary binary = new FirefoxBinary(this.driverLocation);
         LoggingPreferences logPrefs = new LoggingPreferences();
-
+        System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE,"true");
+        // hide firefox logs from console
+        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/tmp/rust_");
 
         profile.setPreference("media.volume_scale", "0.0");
         profile.setPreference("general.useragent.override", userAgent.randomUA());
@@ -148,8 +153,8 @@ public class BotWorker implements Runnable {
         options.setBinary(binary);
 //        options.setProxy(this.proxies.getCurrentProxy());
         options.setCapability("proxy", this.proxies.getCurrentProxy());
-
         this.webDriver = new FirefoxDriver(options);
+
         Log.WINFO(this.workerName, this.workerColor, "Firefox Driver Set");
     }
 
@@ -161,8 +166,13 @@ public class BotWorker implements Runnable {
      * @throws ElementClickInterceptedException
      * @throws NoSuchTitleException Our page doesnt end with YouTube, maybe there is an incorrect URL
      */
-    private int setVideo() throws ElementClickInterceptedException, NoSuchTitleException {
+    private int setVideo() throws ElementClickInterceptedException {
+
         this.webDriver.get(this.videoUrl);
+        String a = this.webDriver.getCurrentUrl();
+        String j = this.webDriver.getTitle();
+        System.out.println("Your page title Is : "+j);
+        System.out.println("Current URL Is : "+a);
 
         if ( this.webDriver.getTitle().endsWith("YouTube") )
         {
@@ -179,9 +189,41 @@ public class BotWorker implements Runnable {
             if (this.watchLength == -1) {
                 return calculateWatchTime( currentVideoTime, totalVideoTime );
             } else {
-                return this.watchLength * 1000;
+                // Randomize watch duration every visits,
+                int w = this.watchLength * 1000;
+                int max = w + 5000;
+                int min = w;
+                int range = max - min + min;
+                int rand = (int) (Math.random()* range) + (min / 2);
+                String pattern = "#,##,###.#";
+                DecimalFormat decimalFormat = new DecimalFormat(pattern);
+                String format = decimalFormat.format(rand / 1000);
+
+                System.out.println("Watch durtion: "+format+" Seconds");
+                Log.WINFO(this.workerName, this.workerColor, "Bot Watching now....");
+                return rand;
+
             }
-        } else {
+        } else  {
+            Log.WINFO(this.workerName, this.workerColor, "reCaptcha Showing!!");
+            // STILL NOT WORKING FOR SOLVING RECAPTCHA PROBLEM, NEED RESTART VPS TO SOLVE THIS.
+            try {
+//                new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[starts-with(@name, 'a-') and starts-with(@src, 'https://www.google.com/recaptcha')]")));
+//                new WebDriverWait(this.webDriver, 20).until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.recaptcha-checkbox-checkmark"))).click();
+//                WebElement iFrame = this.webDriver.findElement(By.xpath("html/body/div[1]/div[3]/div[2]/form/div[5]/div"));
+//                this.webDriver.switchTo().frame(iFrame);
+                  Log.WINFO(this.workerName, this.workerColor, "iframe found!");
+            }catch (Exception e){
+                System.out.println("ERROR: "+e);
+            }
+
+
+//            WebDriverWait(this.webDriver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span#recaptcha-anchor"))).click()
+//            this.webDriver.switch_to.default_content()
+//            WebDriverWait(this.webDriver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR,"iframe[title='recaptcha challenge']")))
+//            WebDriverWait(this.webDriver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button#recaptcha-audio-button"))).click()
+
+
             throw new NoSuchTitleException(String.format("Title does not end with YouTube, please ensure you have " +
                     "provided the correct URL to the video. Actual title: %s", this.webDriver.getTitle()));
         }
@@ -195,6 +237,7 @@ public class BotWorker implements Runnable {
      * @param videoLength The total lengtht of the video
      * @return watchTime in millis
      */
+
     private Integer calculateWatchTime ( String currentTime, String videoLength )
     {
         int[] curHMS =  Stream.of(currentTime.split(":")).mapToInt(Integer::parseInt).toArray();
