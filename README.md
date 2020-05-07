@@ -44,8 +44,11 @@ Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/bl
 - wget https://raw.githubusercontent.com/h4ckm3-id/JYTB/JYTB-Linux-Firefox/run.sh
 - chmod +x run.sh 
 - ./run.sh
+++Wait the Script install all Dependencies and Start the bot for you :) ez life .++
 - paste url video
-- if you using paid options, paste APIKEY pubproxy
+- choose using free proxy or paid. free get 5 proxies from pubproxies,, paid get 20 proxies for rotating.it will updated to new proxies every all proxies already used.
+- if you using paid options, paste APIKEY pubproxy (some bugs the task come after you input the apikey,, 
+  just paste the key after you choose 2)
 - choose firefox for driver
 - choose duration
 - choose threads
