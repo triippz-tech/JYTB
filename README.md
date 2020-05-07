@@ -39,3 +39,25 @@ Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/bl
     - Edge
     - Safari
 - User-determined watch lengths for bots
+
+### Running fork vesion by h4ckm3-id on linux ubuntu with command line (not packaged version)
+- sudo apt update
+- sudo apt install default-jdk
+- sudo apt install maven
+- sudo apt install firefox
+- wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
+- tar -xvzf geckodriver*
+- chmod +x geckodriver
+- mv geckodriver /usr/local/bin/
+- git clone -b JYTB-Linux-Firefox https://github.com/h4ckm3-id/JYTB.git bot
+- cd bot
+- mvn compile
+- mvn exec:java -Dexec.mainClass="com.triippztech.app.App"
+- paste url video
+- if you using paid options, paste APIKEY pubproxy
+- choose firefox for driver
+- choose duration
+- choose threads
+- done 
+
+ 
