@@ -25,9 +25,9 @@ public class Constants {
     public static final String ENCODING = "UTF-8";
 
     /**
-     * Default timeout is set to 10 seconds.
+     * Default timeout is set to 60 seconds.
      */
-    public static final int TIMEOUT = 10000;
+    public static final int TIMEOUT = 60000;
 
     /**
      * Default send method is set to GET.
@@ -44,4 +44,5 @@ public class Constants {
     public static final String EDGE = "EDGE";
     public static final String OPERA = "OPERA";
     public static final String SAFARI = "SAFARI";
+
 }
