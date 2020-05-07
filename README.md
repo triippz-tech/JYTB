@@ -48,14 +48,13 @@ Type on console :
 ~$ ./run.sh
 ```
 ++Wait the Script install all Dependencies and Start the bot for you :) ez life .++
-- paste url video
+- paste url video.
 - choose using free proxy or paid. free get 5 proxies from pubproxies,, paid get 20 proxies for rotating.it will updated to new proxies every all proxies already used.
-- if you using paid options, paste APIKEY pubproxy (some bugs the task come after you input the apikey,, 
-  just paste the key after you choose 2)
-- choose firefox for driver
-- choose duration
-- choose threads
-- done
+- if you using paid options, paste APIKEY pubproxy.
+- choose firefox for driver.
+- choose duration.
+- choose threads.
+- done.
 # Screenshot App Run on 6 vps linux  
 <p align="left"><img width=50% src="https://i.ibb.co/b3vKp6k/SS0594.jpg"></p>
 
