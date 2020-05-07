@@ -29,10 +29,10 @@ import com.triippztech.app.http.Response;
 import com.triippztech.app.utils.Log;
 import com.triippztech.app.utils.UrlUtil;
 import org.openqa.selenium.Proxy;
+// import com.triippztech.app.services.BotWorker;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
 
 public class Proxies {
     private final String protoType = "https";
@@ -42,6 +42,7 @@ public class Proxies {
     private String workerName;
     private String workerColor;
     private String apiKey;
+    private String proxyType;
     private Datum currentProxyModel;
     private Proxy currentProxy;
 
@@ -54,14 +55,44 @@ public class Proxies {
         this.workerColor = workerColor;
         this.usedProxies = new HashSet<>();
 
+
         this.sender = new HttpRequestSender();
         this.gson = new GsonBuilder().setPrettyPrinting().create();
-
         this.generateProxies();
     }
 
+    // constructor for free proxy.
+    public Proxies(String workerName, String workerColor) {
+        this.workerName = workerName;
+        this.workerColor = workerColor;
+        this.usedProxies = new HashSet<>();
+
+
+        this.sender = new HttpRequestSender();
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.generateFreeProxies();
+    }
+
+    @SuppressWarnings("Duplicates")
+    public void generateFreeProxies()
+    {
+        String url = "http://pubproxy.com/api/proxy?limit=5&https=true&format=json";
+        this.setProxyType("FREE");
+
+        Request request = new Request(url);
+            try {
+                Response response = sender.sendRequest(request);
+                proxies = gson.fromJson(response.getBody(), PubProxies.class);
+            } catch (JsonSyntaxException | IOException e) {
+                Log.WERROR(workerName, workerColor, e.getMessage());
+                generateFreeProxies();
+    }
+    // Set the first
+    this.loadNewProxy();
+}
     @SuppressWarnings("Duplicates")
     public void generateProxies()
+
     {
         HashMap<String, String> params = new HashMap<>();
         params.put("api", apiKey);
@@ -69,7 +100,10 @@ public class Proxies {
         params.put("https", "true");
         params.put("format", "json");
 
+        this.setProxyType("PAID");
+
         Request request = new Request(UrlUtil.buildUrlQuery(Constants.SearchEndpoint, params));
+
         try {
             Response response = sender.sendRequest(request);
             proxies = gson.fromJson(response.getBody(), PubProxies.class);
@@ -95,11 +129,20 @@ public class Proxies {
     private void refreshProxies()
     {
         this.proxies = null;
-        this.generateProxies();
+        String px = this.getProxyType();
+
+        if ( px == "FREE" ) {
+            Log.WWARN(workerName, workerColor,"Refreshing new Paid Proxy ...");
+            this.generateFreeProxies();
+        } else {
+            Log.WWARN(workerName, workerColor,"Refreshing new Free Proxy ...");
+            this.generateProxies();
+        }
     }
-    // fix randomproxy problem
+
     private void loadNewProxy() {
         Log.WWARN(workerName, workerColor,"Load new proxies");
+
         this.usedProxies.add(this.getCurrentProxyModel());
         Datum proxy = randomProxy();
             if ( isUsed(proxy) ) {
@@ -120,6 +163,12 @@ public class Proxies {
     }
 
 
+    public void setProxyType(String proxyType) {
+        this.proxyType = proxyType;
+    }
+    public String getProxyType() {
+        return this.proxyType;
+    }
 
     private Boolean isUsed(Datum proxy)
     {
