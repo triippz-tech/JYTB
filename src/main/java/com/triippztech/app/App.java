@@ -129,7 +129,7 @@ public class App {
 
         while (!validated)
         {
-            System.out.print("What is the URL of the YouTube video?  -> ");
+            System.out.println("What is the URL of the YouTube video?  -> ");
             String url = scanner.next();
 
             if (urlValidator.isValid(url)) {
@@ -151,7 +151,7 @@ public class App {
             System.out.println("Which Proxy services would you like to use?");
             System.out.println("1. Free Pubproxy");
             System.out.println("2. Paid Pubproxy");
-            System.out.print("->  ");
+            System.out.println("->  ");
 
             try {
                 Scanner scanner = new Scanner(System.in);
@@ -185,7 +185,7 @@ public class App {
         boolean validated = false;
 
         while (!validated) {
-            System.out.print("Insert your pubproxy API Key, (Key Only).");
+            System.out.println("Insert your pubproxy API Key, (Key Only).");
             System.out.print("Paste here ->  ");
             String key = scanner.next();
 
