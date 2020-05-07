@@ -132,10 +132,10 @@ public class Proxies {
         String px = this.getProxyType();
 
         if ( px == "FREE" ) {
-            Log.WWARN(workerName, workerColor,"Refreshing new Paid Proxy ...");
+            Log.WWARN(workerName, workerColor,"Refreshing new Free Proxy ...");
             this.generateFreeProxies();
         } else {
-            Log.WWARN(workerName, workerColor,"Refreshing new Free Proxy ...");
+            Log.WWARN(workerName, workerColor,"Refreshing new Paid Proxy ...");
             this.generateProxies();
         }
     }
