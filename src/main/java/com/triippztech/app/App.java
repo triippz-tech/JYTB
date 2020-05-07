@@ -43,10 +43,11 @@ import java.util.concurrent.Executors;
 
 
 public class App {
-    private static String version = "0.0.1";
+    private static String version = "0.0.2";
     private static String videoUrl;
     private static String apiKey;
     private static Driver driverType;
+    private static String proxyType;
     private static Integer watchLength;
     private static Integer numberOfWorkers;
 
@@ -55,16 +56,17 @@ public class App {
 
     private static ExecutorService executor;
 
+
     public static void main(String[] args) throws IOException
     {
         showWelcome();
         setVideoUrl();
-        setApiKey();
-        setDriverType();
+        setProxyService();
+        // setDriverType();
         setWatchLength();
         setNumberOfWorkers();
-
         clearScreen();
+
 
         executor = Executors.newFixedThreadPool(numberOfWorkers);
         for ( int i = 0; i < numberOfWorkers; i++)
@@ -76,7 +78,9 @@ public class App {
                     driverType,
                     watchLength,
                     AnsiColors.randomForeground(),
-                    DriverConfiguration.getDriver());
+                    DriverConfiguration.getDriver(),
+                    proxyType
+                    );
             executor.execute(worker);
         }
 
@@ -92,9 +96,11 @@ public class App {
         System.out.print(AnsiColors.ANSI_GREEN + display + AnsiColors.ANSI_RESET);
         System.out.println();
         System.out.println(AnsiColors.ANSI_YELLOW + "Author: Mark Tripoli" + AnsiColors.ANSI_RESET);
+        System.out.println(AnsiColors.ANSI_YELLOW + "Forked by: H4ckm3-id" + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "Version: " + version + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "License: GNU GPL v3" + AnsiColors.ANSI_RESET);
-        System.out.println(AnsiColors.ANSI_YELLOW + "Repo: https://github.com/triippz-tech/JYTBot" + AnsiColors.ANSI_RESET);
+        System.out.println(AnsiColors.ANSI_YELLOW + "Main Repo: https://github.com/triippz-tech/JYTBot" + AnsiColors.ANSI_RESET);
+        System.out.println(AnsiColors.ANSI_YELLOW + "Fork Repo: https://github.com/h4ckm3-id/JYTB.git" + AnsiColors.ANSI_RESET);
         System.out.println();
         System.out.println(AnsiColors.ANSI_BRIGHT_RED + "This application is meant for educational purposes only. " +
                 "What you do with bot, is on you, I am not liable for anything you do with this."
@@ -120,13 +126,53 @@ public class App {
         }
     }
 
+    private static void setProxyService()
+    {
+        boolean validated = false;
+
+        while (!validated) {
+            System.out.println("We using Proxy services from pubproxy.com");
+            System.out.println("Free and PAID (Paid need API Key)");
+            System.out.println("Which Proxy services would you like to use? (Enter a number 1-2)");
+            System.out.println("1. Free Pubproxy");
+            System.out.println("2. Paid Pubproxy");
+            System.out.print("->  ");
+
+            try {
+                Scanner scanner = new Scanner(System.in);
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+
+                        proxyType = "FREE";
+                        setDriverType();
+                        validated = true;
+                        break;
+                    case 2:
+                        proxyType = "PAID";
+                        setApiKey();
+                        validated = true;
+                        break;
+                    default:
+                        System.out.println(AnsiColors.ANSI_BRIGHT_RED + "Invalid Selection" + AnsiColors.ANSI_RESET);
+                        validated = false;
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(AnsiColors.ANSI_BRIGHT_RED + "Invalid Selection" + AnsiColors.ANSI_RESET);
+                validated = false;
+            }
+        }
+
+    }
     private static void setApiKey()
     {
         Scanner scanner = new Scanner(System.in);
         boolean validated = false;
 
         while (!validated) {
-            System.out.print("What is your API Key?  -> ");
+            System.out.print("Insert your pubproxy API Key, (Key Only).");
+            System.out.print("Paste your API Key here --> ");
             String key = scanner.next();
 
             if ( apiKeyValid(key) ) {
@@ -137,6 +183,7 @@ public class App {
                 validated = false;
             }
         }
+        setDriverType();
     }
 
     private static void setDriverType()
@@ -180,7 +227,7 @@ public class App {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Would you like the bot to watch the FULL video or a set number of seconds? Select an item:");
             System.out.println("1. Full Length");
-            System.out.println("2. Specific Time");
+            System.out.println("2. Specific Time with auto Randomize");
             System.out.print("->  ");
             try {
                 int choice = scanner.nextInt();
