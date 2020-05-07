@@ -41,9 +41,12 @@ Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/bl
 - User-determined watch lengths for bots
 
 ### Running App fork vesion by h4ckm3-id on linux ubuntu with command line (not packaged version)
-- wget https://raw.githubusercontent.com/h4ckm3-id/JYTB/JYTB-Linux-Firefox/run.sh
-- chmod +x run.sh 
-- ./run.sh
+Type on console : 
+```console
+~$ wget https://raw.githubusercontent.com/h4ckm3-id/JYTB/JYTB-Linux-Firefox/run.sh
+~$ chmod +x run.sh
+~$ ./run.sh
+```
 ++Wait the Script install all Dependencies and Start the bot for you :) ez life .++
 - paste url video
 - choose using free proxy or paid. free get 5 proxies from pubproxies,, paid get 20 proxies for rotating.it will updated to new proxies every all proxies already used.
