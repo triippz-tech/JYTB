@@ -26,7 +26,7 @@ import java.io.File;
 
 public class DriverConfiguration {
     // macOS
-    private final static String FIREFOX_MAC = "/Applications/Firefox.app/Contents/MacOS/firefox";
+    private final static String FIREFOX_MAC = "Applications/firefox.app";
     private final static String CHROME_MAC = "/Applications/Google Chrome.app";
     private final static String OPERA_MAC = "/Applications/Opera.app";
     private final static String SAFARI_MAC = "/Applications/Safari.app";
@@ -42,6 +42,8 @@ public class DriverConfiguration {
     private final static String OPERA_WIN_32 = "";
 
     // LINUX
+    private final static String FIREFOX_LINUX = "/usr/bin/firefox";
+    private final static String CHROME_LINUX = "/usr/bin/chromium";
 
     @SuppressWarnings("Duplicates")
     public static void validateDriver(Driver driverType)
@@ -54,7 +56,7 @@ public class DriverConfiguration {
                 else if (SystemUtils.IS_OS_WINDOWS)
                     driverExists(FIREFOX_WIN_32, FIREFOX_WIN_64);
                 else
-                    //
+                    driverExists(FIREFOX_LINUX); 
                 break;
             case Constants.CHROME:
                 if (SystemUtils.IS_OS_MAC_OSX)
@@ -62,7 +64,7 @@ public class DriverConfiguration {
                 else if (SystemUtils.IS_OS_WINDOWS)
                     driverExists(CHROME_WIN_32, CHROME_WIN_64);
                 else
-                    //
+                    driverExists(CHROME_LINUX); 
                 break;
             case Constants.SAFARI:
             case Constants.OPERA:
@@ -86,7 +88,14 @@ public class DriverConfiguration {
 
     public static File getDriver()
     {
-        return new File(FIREFOX_MAC);
+       //  return new File(FIREFOX_LINUX);
+//
+        if (SystemUtils.IS_OS_MAC_OSX)
+            return new File(FIREFOX_MAC);
+        else if (SystemUtils.IS_OS_WINDOWS)
+            return new File(FIREFOX_WIN_32, FIREFOX_WIN_64);
+        else
+            return new File(FIREFOX_LINUX);
     }
 
 //    public static File getFirefoxDriver()
