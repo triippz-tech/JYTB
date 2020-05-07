@@ -42,8 +42,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
+/**
+ * <p>App class.</p>
+ *
+ * @author tester
+ * @version $Id: $Id
+ */
 public class App {
-    private static String version = "0.0.2";
     private static String videoUrl;
     private static String apiKey;
     private static Driver driverType;
@@ -51,12 +56,16 @@ public class App {
     private static Integer watchLength;
     private static Integer numberOfWorkers;
 
-    private static String[] schemes = { "http","https" };
-    private static UrlValidator urlValidator = new UrlValidator(schemes);
-
-    private static ExecutorService executor;
+    private static final String[] schemes = { "http","https" };
+    private static final UrlValidator urlValidator = new UrlValidator(schemes);
 
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     */
     public static void main(String[] args) throws IOException
     {
         showWelcome();
@@ -68,7 +77,7 @@ public class App {
         clearScreen();
 
 
-        executor = Executors.newFixedThreadPool(numberOfWorkers);
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfWorkers);
         for ( int i = 0; i < numberOfWorkers; i++)
         {
             Runnable worker = new BotWorker(
@@ -90,6 +99,11 @@ public class App {
         System.out.println("\nFinished all threads");
     }
 
+    /**
+     * <p>showWelcome.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public static void showWelcome() throws IOException {
         String display = FigletFont.convertOneLine("JYTBot");
 
@@ -97,6 +111,7 @@ public class App {
         System.out.println();
         System.out.println(AnsiColors.ANSI_YELLOW + "Author: Mark Tripoli" + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "Forked by: H4ckm3-id" + AnsiColors.ANSI_RESET);
+        String version = "0.0.2";
         System.out.println(AnsiColors.ANSI_YELLOW + "Version: " + version + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "License: GNU GPL v3" + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "Main Repo: https://github.com/triippz-tech/JYTBot" + AnsiColors.ANSI_RESET);
@@ -133,7 +148,7 @@ public class App {
         while (!validated) {
             System.out.println("We using Proxy services from pubproxy.com");
             System.out.println("Free and PAID (Paid need API Key)");
-            System.out.println("Which Proxy services would you like to use? (Enter a number 1-2)");
+            System.out.println("Which Proxy services would you like to use?");
             System.out.println("1. Free Pubproxy");
             System.out.println("2. Paid Pubproxy");
             System.out.print("->  ");
@@ -143,7 +158,6 @@ public class App {
                 int choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
-
                         proxyType = "FREE";
                         setDriverType();
                         validated = true;
@@ -172,7 +186,7 @@ public class App {
 
         while (!validated) {
             System.out.print("Insert your pubproxy API Key, (Key Only).");
-            System.out.print("Paste your API Key here --> ");
+            System.out.print("Paste here ->  ");
             String key = scanner.next();
 
             if ( apiKeyValid(key) ) {
