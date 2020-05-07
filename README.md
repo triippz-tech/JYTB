@@ -53,7 +53,7 @@ Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/bl
 - choose duration
 - choose threads
 - done
-Screenshot App Run on 6 vps linux  
+# Screenshot App Run on 6 vps linux  
 <p align="center"><img width=60% src="https://i.ibb.co/b3vKp6k/SS0594.jpg"></p>
-Screenshot Traffic from yt video analystic
+# Screenshot Traffic from yt video analystic
 <p align="center"><img width=60% src="https://i.ibb.co/rfZFKfK/SS0595.jpg"></p>
