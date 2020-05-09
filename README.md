@@ -39,3 +39,24 @@ Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/bl
     - Edge
     - Safari
 - User-determined watch lengths for bots
+
+### Running App fork vesion by h4ckm3-id on linux ubuntu with command line (not packaged version)
+Type on console : 
+```console
+~$ wget https://raw.githubusercontent.com/h4ckm3-id/JYTB/JYTB-Linux-Firefox/run.sh
+~$ chmod +x run.sh
+~$ ./run.sh
+```
+++Wait the Script install all Dependencies and Start the bot for you :) ez life .++
+- paste url video.
+- choose using free proxy or paid. free get 5 proxies from pubproxies,, paid get 20 proxies for rotating.it will updated to new proxies every all proxies already used.
+- if you using paid options, paste APIKEY pubproxy.
+- choose firefox for driver.
+- choose duration.
+- choose threads.
+- done.
+# Screenshot App Run on 6 vps linux  
+<p align="left"><img width=50% src="https://i.ibb.co/b3vKp6k/SS0594.jpg"></p>
+
+# Screenshot Traffic from yt video analystic
+<p align="left"><img width=50% src="https://i.ibb.co/rfZFKfK/SS0595.jpg"></p>
