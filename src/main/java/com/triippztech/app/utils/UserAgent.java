@@ -18,25 +18,29 @@
 
 package com.triippztech.app.utils;
 
-import com.triippztech.app.models.Constants;
-import com.triippztech.app.models.Driver;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import com.triippztech.app.models.Driver;
+import java.io.*;
+import java.util.*;
 
 public class UserAgent {
     private Driver driverType;
     private List<String> userAgentList;
 
+
     public UserAgent(Driver driverType) throws IOException {
         this.driverType = driverType;
-        this.userAgentList = Files.readAllLines(
-                Paths.get(Objects.requireNonNull(
-                        getClass().getClassLoader().getResource("userAgents/" + driverType.toString() + ".txt")).getPath()));
+        // Read user Agents data, working on Jar or debug on IDEA
+        InputStream inputStream = getClass().getResourceAsStream("/userAgents/" + driverType.toString() + ".txt");
+        InputStreamReader streamReader = new InputStreamReader (inputStream);
+        BufferedReader reader = new BufferedReader (streamReader);
+        ArrayList<String> temp = new ArrayList<String>();
+        String line;
+        while ((line = reader.readLine()) != null)
+        {
+            temp.add(line);
+        }
+        this.userAgentList = temp;
     }
 
     public String randomUA() {

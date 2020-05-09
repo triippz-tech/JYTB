@@ -29,10 +29,10 @@ import com.triippztech.app.http.Response;
 import com.triippztech.app.utils.Log;
 import com.triippztech.app.utils.UrlUtil;
 import org.openqa.selenium.Proxy;
+// import com.triippztech.app.services.BotWorker;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
 
 public class Proxies {
     private final String protoType = "https";
@@ -42,11 +42,13 @@ public class Proxies {
     private String workerName;
     private String workerColor;
     private String apiKey;
+    private String proxyType;
     private Datum currentProxyModel;
     private Proxy currentProxy;
 
     private RequestSender sender;
     private Gson gson;
+    private FreeProxies Freeproxies;
 
     public Proxies(String workerName, String apiKey, String workerColor) {
         this.workerName = workerName;
@@ -54,14 +56,44 @@ public class Proxies {
         this.workerColor = workerColor;
         this.usedProxies = new HashSet<>();
 
+
         this.sender = new HttpRequestSender();
         this.gson = new GsonBuilder().setPrettyPrinting().create();
-
         this.generateProxies();
     }
 
+    // constructor for free proxy.
+    public Proxies(String workerName, String workerColor) {
+        this.workerName = workerName;
+        this.workerColor = workerColor;
+        this.usedProxies = new HashSet<>();
+
+
+        this.sender = new HttpRequestSender();
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.generateFreeProxies();
+    }
+
+    @SuppressWarnings("Duplicates")
+    public void generateFreeProxies()
+    {
+        String url = "https://raw.githubusercontent.com/scidam/proxy-list/master/proxy.json";
+        this.setProxyType("FREE");
+
+        Request request = new Request(url);
+            try {
+                Response response = sender.sendRequest(request);
+                Freeproxies = gson.fromJson(response.getBody(), FreeProxies.class);
+            } catch (JsonSyntaxException | IOException e) {
+                Log.WERROR(workerName, workerColor, e.getMessage());
+                generateFreeProxies();
+    }
+    // Set the first
+    this.loadNewProxy();
+}
     @SuppressWarnings("Duplicates")
     public void generateProxies()
+
     {
         HashMap<String, String> params = new HashMap<>();
         params.put("api", apiKey);
@@ -69,7 +101,10 @@ public class Proxies {
         params.put("https", "true");
         params.put("format", "json");
 
+        this.setProxyType("PAID");
+
         Request request = new Request(UrlUtil.buildUrlQuery(Constants.SearchEndpoint, params));
+
         try {
             Response response = sender.sendRequest(request);
             proxies = gson.fromJson(response.getBody(), PubProxies.class);
@@ -86,8 +121,9 @@ public class Proxies {
     {
         Log.WWARN(workerName, workerColor,"Rotating proxies");
 
-        // Add the current proxy to the used Set
+    //    String px = this.getProxyType();
         this.usedProxies.add(this.currentProxyModel);
+
         // Load a new one
         this.loadNewProxy();
     }
@@ -95,31 +131,64 @@ public class Proxies {
     private void refreshProxies()
     {
         this.proxies = null;
-        this.generateProxies();
+        String px = this.getProxyType();
+
+        if ( px == "FREE" ) {
+            Log.WWARN(workerName, workerColor,"Refreshing new Free Proxy ...");
+            this.generateFreeProxies();
+        } else {
+            Log.WWARN(workerName, workerColor,"Refreshing new Paid Proxy ...");
+            this.generateProxies();
+        }
     }
-    // fix randomproxy problem
+
     private void loadNewProxy() {
         Log.WWARN(workerName, workerColor,"Load new proxies");
+
         this.usedProxies.add(this.getCurrentProxyModel());
-        Datum proxy = randomProxy();
-            if ( isUsed(proxy) ) {
+        String px = this.getProxyType();
+
+        if ( px == "PAID" ) {
+            Datum proxy = randomProxy();
+            if (isUsed(proxy)) {
                 try {
-                    Log.WWARN(workerName, workerColor,"proxy already used");
+                    Log.WWARN(workerName, workerColor, "proxy already used");
                     Thread.sleep(3000);
-                    Log.WWARN(workerName, workerColor,"Refreshing Proxy list...");
+                    Log.WWARN(workerName, workerColor, "Refreshing Paid Proxy list...");
                     this.refreshProxies();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 this.setCurrentProxyModel(proxy);
                 this.setCurrentProxy(proxy);
             }
+        } else {
+            Datum proxy = randomFreeProxy();
+            if (isUsed(proxy)) {
+                try {
+                    Log.WWARN(workerName, workerColor, "proxy already used");
+                    Thread.sleep(3000);
+                    Log.WWARN(workerName, workerColor, "Refreshing Free Proxy list...");
+                    this.refreshProxies();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                this.setCurrentProxyModel(proxy);
+                this.setCurrentProxy(proxy);
+            }
+        }
 
     }
 
 
+    public void setProxyType(String proxyType) {
+        this.proxyType = proxyType;
+    }
+    public String getProxyType() {
+        return this.proxyType;
+    }
 
     private Boolean isUsed(Datum proxy)
     {
@@ -130,8 +199,15 @@ public class Proxies {
         return proxies.getData().get(new Random().nextInt(proxies.getData().size()));
     }
 
+    private Datum randomFreeProxy() {
+        return Freeproxies.getData().get(new Random().nextInt(Freeproxies.getData().size()));
+    }
+
     public List<Datum> getProxies() {
         return proxies.getData();
+    }
+    public List<Datum> getFreeProxies() {
+        return Freeproxies.getData();
     }
 
     public Set<Datum> getUsedProxies() {

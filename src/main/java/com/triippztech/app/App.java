@@ -42,31 +42,41 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
+/**
+ * <p>App class.</p>
+ *
+ * @author tester
+ * @version $Id: $Id
+ */
 public class App {
-    private static String version = "0.0.1";
     private static String videoUrl;
     private static String apiKey;
     private static Driver driverType;
+    private static String proxyType;
     private static Integer watchLength;
     private static Integer numberOfWorkers;
 
-    private static String[] schemes = { "http","https" };
-    private static UrlValidator urlValidator = new UrlValidator(schemes);
+    private static final String[] schemes = { "http","https" };
+    private static final UrlValidator urlValidator = new UrlValidator(schemes);
 
-    private static ExecutorService executor;
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
+     */
     public static void main(String[] args) throws IOException
     {
         showWelcome();
         setVideoUrl();
-        setApiKey();
-        setDriverType();
+        setProxyService();
+        // setDriverType();
         setWatchLength();
         setNumberOfWorkers();
-
         clearScreen();
 
-        executor = Executors.newFixedThreadPool(numberOfWorkers);
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfWorkers);
         for ( int i = 0; i < numberOfWorkers; i++)
         {
             Runnable worker = new BotWorker(
@@ -76,7 +86,9 @@ public class App {
                     driverType,
                     watchLength,
                     AnsiColors.randomForeground(),
-                    DriverConfiguration.getDriver());
+                    DriverConfiguration.getDriver(),
+                    proxyType
+            );
             executor.execute(worker);
         }
 
@@ -86,15 +98,23 @@ public class App {
         System.out.println("\nFinished all threads");
     }
 
+    /**
+     * <p>showWelcome.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public static void showWelcome() throws IOException {
         String display = FigletFont.convertOneLine("JYTBot");
 
         System.out.print(AnsiColors.ANSI_GREEN + display + AnsiColors.ANSI_RESET);
         System.out.println();
         System.out.println(AnsiColors.ANSI_YELLOW + "Author: Mark Tripoli" + AnsiColors.ANSI_RESET);
+        System.out.println(AnsiColors.ANSI_YELLOW + "Forked by: H4ckm3-id" + AnsiColors.ANSI_RESET);
+        String version = "1.0.0";
         System.out.println(AnsiColors.ANSI_YELLOW + "Version: " + version + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "License: GNU GPL v3" + AnsiColors.ANSI_RESET);
-        System.out.println(AnsiColors.ANSI_YELLOW + "Repo: https://github.com/triippz-tech/JYTBot" + AnsiColors.ANSI_RESET);
+        System.out.println(AnsiColors.ANSI_YELLOW + "Main Repo: https://github.com/triippz-tech/JYTBot" + AnsiColors.ANSI_RESET);
+        System.out.println(AnsiColors.ANSI_YELLOW + "Fork Repo: https://github.com/h4ckm3-id/JYTB.git" + AnsiColors.ANSI_RESET);
         System.out.println();
         System.out.println(AnsiColors.ANSI_BRIGHT_RED + "This application is meant for educational purposes only. " +
                 "What you do with bot, is on you, I am not liable for anything you do with this."
@@ -108,7 +128,7 @@ public class App {
 
         while (!validated)
         {
-            System.out.print("What is the URL of the YouTube video?  -> ");
+            System.out.println("What is the URL of the YouTube video?  -> ");
             String url = scanner.next();
 
             if (urlValidator.isValid(url)) {
@@ -120,13 +140,52 @@ public class App {
         }
     }
 
+    private static void setProxyService()
+    {
+        boolean validated = false;
+
+        while (!validated) {
+            System.out.println("We using Paid Proxy services from pubproxy.com");
+            System.out.println("We using Free Proxy library https://github.com/scidam/proxy-list");
+            System.out.println("Which Proxy services would you like to use (Paid need API Key)?");
+            System.out.println("1. Free proxy");
+            System.out.println("2. Paid Pubproxy");
+            System.out.println(" 1 or 2 ->  ");
+
+            try {
+                Scanner scanner = new Scanner(System.in);
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        proxyType = "FREE";
+                        setDriverType();
+                        validated = true;
+                        break;
+                    case 2:
+                        proxyType = "PAID";
+                        setApiKey();
+                        validated = true;
+                        break;
+                    default:
+                        System.out.println(AnsiColors.ANSI_BRIGHT_RED + "Invalid Selection" + AnsiColors.ANSI_RESET);
+                        validated = false;
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(AnsiColors.ANSI_BRIGHT_RED + "Invalid Selection" + AnsiColors.ANSI_RESET);
+                validated = false;
+            }
+        }
+
+    }
     private static void setApiKey()
     {
         Scanner scanner = new Scanner(System.in);
         boolean validated = false;
 
         while (!validated) {
-            System.out.print("What is your API Key?  -> ");
+            System.out.println("Insert your pubproxy API Key, (Key Only).");
+            System.out.println("Paste here ->  ");
             String key = scanner.next();
 
             if ( apiKeyValid(key) ) {
@@ -137,6 +196,7 @@ public class App {
                 validated = false;
             }
         }
+        setDriverType();
     }
 
     private static void setDriverType()
@@ -145,9 +205,10 @@ public class App {
 
         while (!validated) {
             System.out.println("Which driver would you like to use? (Enter a number 1-2)");
+            System.out.println("Number 2 not working yet :) ");
             System.out.println("1. Firefox");
             System.out.println("2. Chrome");
-            System.out.print("->  ");
+            System.out.println(" 1 or 2 ->  ");
 
             try {
                 Scanner scanner = new Scanner(System.in);
@@ -180,8 +241,8 @@ public class App {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Would you like the bot to watch the FULL video or a set number of seconds? Select an item:");
             System.out.println("1. Full Length");
-            System.out.println("2. Specific Time");
-            System.out.print("->  ");
+            System.out.println("2. Specific Time with auto Randomize");
+            System.out.println(" 1 or 2 ->  ");
             try {
                 int choice = scanner.nextInt();
 
@@ -212,7 +273,7 @@ public class App {
         while (!validated) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("How long would you like to watch the video for, IN SECONDS? (Must be greater than 30 seconds)");
-            System.out.print("->  ");
+            System.out.println("->  ");
             try {
                 int seconds = scanner.nextInt();
 
@@ -238,7 +299,8 @@ public class App {
         while (!validated) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("How many workers would you like to use? (default = 3)");
-            System.out.print("->  ");
+            System.out.println("1 gb ram and 1 cpu,only can using 2 workers, or worker will crash");
+            System.out.println("->  ");
             try {
                 int workers = scanner.nextInt();
                 if (workers < 1) {

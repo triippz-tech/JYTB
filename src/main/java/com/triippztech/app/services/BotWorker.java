@@ -25,10 +25,7 @@ import com.triippztech.app.models.Proxies;
 import com.triippztech.app.utils.AnsiColors;
 import com.triippztech.app.utils.Log;
 import com.triippztech.app.utils.UserAgent;
-import org.openqa.selenium.By;
-import org.openqa.selenium.ElementClickInterceptedException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -55,6 +52,7 @@ public class BotWorker implements Runnable {
     private String apiKey;
     private String videoUrl;
     private Driver driverType;
+    private String proxyType;
     private Integer watchLength;
     private Proxies proxies;
     private WebDriver webDriver;
@@ -63,7 +61,7 @@ public class BotWorker implements Runnable {
     private Integer numberOfWatches = 0;
 
     public BotWorker(String workerName, String apiKey, String videoUrl, Driver driverType,
-                     Integer watchLength, String workerColor, File driverLocation)
+                     Integer watchLength, String workerColor, File driverLocation, String proxyType)
             throws IOException
     {
         this.workerName = workerName;
@@ -73,16 +71,45 @@ public class BotWorker implements Runnable {
         this.watchLength = watchLength;
         this.workerColor = workerColor;
         this.driverLocation = driverLocation;
+        this.proxyType = proxyType;
 
-        this.initializeBot();
+        if (this.proxyType == "PAID" ) {
+            this.initializeBot();
+        }
+        else {
+            this.initializeBotFree();
+        }
+
     }
 
     @SuppressWarnings("Duplicates")
     private void initializeBot() throws IOException {
-        Log.WINFO(this.workerName, this.workerColor, "Initializing. . .");
+        Log.WINFO(this.workerName, this.workerColor, "Initializing paid bot proxy. . .");
         this.proxies = new Proxies(this.workerName, this.apiKey, this.workerColor);
         this.userAgent = new UserAgent(this.driverType);
 
+
+        switch (this.driverType.name() )
+        {
+            case Constants.FIREFOX:
+                this.setFirefoxDriver();
+                break;
+            case Constants.CHROME:
+                this.setChromeDriver();
+                break;
+            case Constants.SAFARI:
+            case Constants.OPERA:
+            case Constants.EDGE:
+                break;
+        }
+        Log.WINFO(this.workerName, this.workerColor, "Initialization Complete!");
+    }
+    // free proxy initialize
+    @SuppressWarnings("Duplicates")
+    private void initializeBotFree() throws IOException {
+        Log.WINFO(this.workerName, this.workerColor, "Initializing Free bot proxy. . .");
+        this.proxies = new Proxies(this.workerName, this.workerColor);
+        this.userAgent = new UserAgent(this.driverType);
 
         switch (this.driverType.name() )
         {
@@ -136,6 +163,7 @@ public class BotWorker implements Runnable {
         // hide firefox logs from console
         System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/tmp/rust_");
 
+
         profile.setPreference("media.volume_scale", "0.0");
         profile.setPreference("general.useragent.override", userAgent.randomUA());
         profile.setPreference("network.proxy.type", 1);
@@ -174,6 +202,11 @@ public class BotWorker implements Runnable {
         System.out.println("Your page title Is : "+j);
         System.out.println("Current URL Is : "+a);
 
+        if (this.webDriver.getTitle().endsWith(a) ) {
+            Log.WINFO(this.workerName, this.workerColor, "reCaptcha Showing!!");
+            this.resetBot();
+        }
+
         if ( this.webDriver.getTitle().endsWith("YouTube") )
         {
             WebElement playButton = this.webDriver.findElement(By.className("ytp-play-button"));
@@ -189,43 +222,23 @@ public class BotWorker implements Runnable {
             if (this.watchLength == -1) {
                 return calculateWatchTime( currentVideoTime, totalVideoTime );
             } else {
-                // Randomize watch duration every visits,
+                // Randomize watch duration every visits (add 5 seconds for ranges),
                 int w = this.watchLength * 1000;
                 int max = w + 5000;
                 int min = w;
-                int range = max - min + min;
-                int rand = (int) (Math.random()* range) + (min / 2);
+                int range = max - min + 1;
+                int rand = (int) (Math.random()* range) + w;
                 String pattern = "#,##,###.#";
                 DecimalFormat decimalFormat = new DecimalFormat(pattern);
                 String format = decimalFormat.format(rand / 1000);
-
-                System.out.println("Watch durtion: "+format+" Seconds");
+                Log.WINFO(this.workerName, this.workerColor, "Watch durtion: "+format+" Seconds");
                 Log.WINFO(this.workerName, this.workerColor, "Bot Watching now....");
                 return rand;
 
             }
         } else  {
-            Log.WINFO(this.workerName, this.workerColor, "reCaptcha Showing!!");
-            // STILL NOT WORKING FOR SOLVING RECAPTCHA PROBLEM, NEED RESTART VPS TO SOLVE THIS.
-            try {
-//                new WebDriverWait(this.webDriver, 10).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[starts-with(@name, 'a-') and starts-with(@src, 'https://www.google.com/recaptcha')]")));
-//                new WebDriverWait(this.webDriver, 20).until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.recaptcha-checkbox-checkmark"))).click();
-//                WebElement iFrame = this.webDriver.findElement(By.xpath("html/body/div[1]/div[3]/div[2]/form/div[5]/div"));
-//                this.webDriver.switchTo().frame(iFrame);
-                  Log.WINFO(this.workerName, this.workerColor, "iframe found!");
-            }catch (Exception e){
-                System.out.println("ERROR: "+e);
-            }
-
-
-//            WebDriverWait(this.webDriver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span#recaptcha-anchor"))).click()
-//            this.webDriver.switch_to.default_content()
-//            WebDriverWait(this.webDriver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR,"iframe[title='recaptcha challenge']")))
-//            WebDriverWait(this.webDriver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button#recaptcha-audio-button"))).click()
-
-
-            throw new NoSuchTitleException(String.format("Title does not end with YouTube, please ensure you have " +
-                    "provided the correct URL to the video. Actual title: %s", this.webDriver.getTitle()));
+          throw new NoSuchTitleException(String.format("Title does not end with YouTube, please ensure you have " +
+                  "provided the correct URL to the video. Actual title: %s", this.webDriver.getTitle()));
         }
     }
 

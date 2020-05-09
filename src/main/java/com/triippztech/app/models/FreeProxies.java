@@ -1,3 +1,4 @@
+
 /*
  *     JYTBot, YouTube viewer bot for educational purposes
  *     Copyright (C) 2019  Mark Tripoli (triippztech.com)
@@ -18,31 +19,34 @@
 
 package com.triippztech.app.models;
 
-public class Constants {
-    /**
-     * Default encoding is set to UTF-8.
-     */
-    public static final String ENCODING = "UTF-8";
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    /**
-     * Default timeout is set to 10 seconds.
-     */
-    public static final int TIMEOUT = 10000;
+import java.util.List;
 
-    /**
-     * Default send method is set to GET.
-     */
-    public static final String SEND_METHOD = "GET";
+public class FreeProxies {
 
-    /**
-     * Default search endpoint for pubproxy
-     */
-    public static final String SearchEndpoint = "http://pubproxy.com/api/proxy";
+    @SerializedName("proxies")
+    @Expose
+    private List<Datum> proxies = null;
+    @SerializedName("date")
+    @Expose
+    private String date;
 
-    public static final String CHROME = "CHROME";
-    public static final String FIREFOX = "FIREFOX";
-    public static final String EDGE = "EDGE";
-    public static final String OPERA = "OPERA";
-    public static final String SAFARI = "SAFARI";
+    public List<Datum> getData() {
+        return proxies;
+    }
+
+    public void setData(List<Datum> data) {
+        this.proxies = proxies;
+    }
+
+    public String getdate() {
+        return date;
+    }
+
+    public void setdate(String date) {
+        this.date = date;
+    }
 
 }
