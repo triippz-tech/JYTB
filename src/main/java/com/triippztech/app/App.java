@@ -110,7 +110,7 @@ public class App {
         System.out.println();
         System.out.println(AnsiColors.ANSI_YELLOW + "Author: Mark Tripoli" + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "Forked by: H4ckm3-id" + AnsiColors.ANSI_RESET);
-        String version = "0.1.0";
+        String version = "1.0.0";
         System.out.println(AnsiColors.ANSI_YELLOW + "Version: " + version + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "License: GNU GPL v3" + AnsiColors.ANSI_RESET);
         System.out.println(AnsiColors.ANSI_YELLOW + "Main Repo: https://github.com/triippz-tech/JYTBot" + AnsiColors.ANSI_RESET);
@@ -145,10 +145,10 @@ public class App {
         boolean validated = false;
 
         while (!validated) {
-            System.out.println("We using Proxy services from pubproxy.com");
-            System.out.println("Free and PAID (Paid need API Key)");
-            System.out.println("Which Proxy services would you like to use?");
-            System.out.println("1. Free Pubproxy");
+            System.out.println("We using Paid Proxy services from pubproxy.com");
+            System.out.println("We using Free Proxy library https://github.com/scidam/proxy-list");
+            System.out.println("Which Proxy services would you like to use (Paid need API Key)?");
+            System.out.println("1. Free proxy");
             System.out.println("2. Paid Pubproxy");
             System.out.println(" 1 or 2 ->  ");
 
@@ -205,6 +205,7 @@ public class App {
 
         while (!validated) {
             System.out.println("Which driver would you like to use? (Enter a number 1-2)");
+            System.out.println("Number 2 not working yet :) ");
             System.out.println("1. Firefox");
             System.out.println("2. Chrome");
             System.out.println(" 1 or 2 ->  ");
@@ -298,6 +299,7 @@ public class App {
         while (!validated) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("How many workers would you like to use? (default = 3)");
+            System.out.println("1 gb ram and 1 cpu,only can using 2 workers, or worker will crash");
             System.out.println("->  ");
             try {
                 int workers = scanner.nextInt();
