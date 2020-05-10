@@ -13,7 +13,8 @@
 JYTB is a multi-threaded Java application, which "views" a given YouTube video. The bot auto-rotates proxies if a proxy
 has been determined to be dead, compromised, or the bot has finished watching the video. The goal is to provide unique 
 views to a YouTube video.
-<p align="center"><img width=95% src="https://triippz-tech.github.io/JYTB/images/run-example.png"></p>
+<p align="center"><img width=95% src="https://i.ibb.co/4WkHBWP/jytb01.jpg"></p>
+<p align="center"><img width=95% src="https://i.ibb.co/fqDWn31/jytb02.jpg"></p>
 
 <br>
 
@@ -23,20 +24,6 @@ This is Fork version by h4ckm3-id for linux and firefox driver only.
 ## Features 
 - Paid Proxy using APIKEY from pubproxy.com.
 - Free Proxy using lib from https://github.com/scidam/proxy-list.
-
-## Contributing
-Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/blob/master/docs/CONTRIBUTING.md) guidelines if you're interested in helping!
-#### Pending Features
-- Headless or Head Mode
-- Platform Independence
-- Auto-installation of proper drivers
-- Support for major browsers
-    - Firefox
-    - Chrome
-    - Opera
-    - Edge
-    - Safari
-- User-determined watch lengths for bots
 
 ### Running App 
 Type on console : 
@@ -52,3 +39,17 @@ Type on console :
 
 # Screenshot Traffic from yt video analystic
 <p align="left"><img width=50% src="https://i.ibb.co/rfZFKfK/SS0595.jpg"></p>
+
+## Contributing
+Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/blob/master/docs/CONTRIBUTING.md) guidelines if you're interested in helping!
+#### Pending Features
+- Headless or Head Mode
+- Platform Independence
+- Auto-installation of proper drivers
+- Support for major browsers
+    - Firefox
+    - Chrome
+    - Opera
+    - Edge
+    - Safari
+- User-determined watch lengths for bots
