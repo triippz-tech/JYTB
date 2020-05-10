@@ -41,7 +41,7 @@ Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/bl
 ### Running App 
 Type on console : 
 ```console
-~$ https://raw.githubusercontent.com/triippz-tech/JYTB/JYTB-Linux-Firefox/run.sh
+~$ wget https://raw.githubusercontent.com/triippz-tech/JYTB/JYTB-Linux-Firefox/run.sh
 ~$ chmod +x run.sh
 ~$ ./run.sh
 ```
