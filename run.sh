@@ -10,7 +10,7 @@ read -p ".." -t 0.5
 read -p ".." -t 0.5
 read -p ".." -t 0.5
 echo -e "\e[0m"
-sudo apt -y  install default-jdk maven firefox &&
+sudo apt -y  install default-jdk firefox &&
 wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz &&
 tar -xvzf geckodriver* &&
 chmod +x geckodriver &&
