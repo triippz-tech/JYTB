@@ -58,11 +58,11 @@ java -jar JYTBtrial.jar
 ```
 ### Debian/Kali : 
 - Download Firefox and Java
-Do instruction from this web
-Download java : 
+- Do instruction from this web
+- Download java : 
   https://docs.datastax.com/en/jdk-install/doc/jdk-install/installOpenJdkDeb.html
-Download firefox
-https://miloserdov.org/?p=2848
+- Download firefox
+- https://miloserdov.org/?p=2848
 - Download Gecko Driver 
 ```console 
 sudo wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
