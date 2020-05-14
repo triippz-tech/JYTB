@@ -13,10 +13,13 @@
 JYTB is a multi-threaded Java application, which "views" a given YouTube video. The bot auto-rotates proxies if a proxy
 has been determined to be dead, compromised, or the bot has finished watching the video. The goal is to provide unique 
 views to a YouTube video.
-<p align="center"><img width=95% src="https://i.ibb.co/4WkHBWP/jytb01.jpg"></p>
-<p align="center"><img width=95% src="https://i.ibb.co/fqDWn31/jytb02.jpg"></p>
+<p align="center"><img width=50% src="https://i.ibb.co/4WkHBWP/jytb01.jpg"></p>
+<p align="center"><img width=50% src="https://i.ibb.co/fqDWn31/jytb02.jpg"></p>
 
 <br>
+
+# Important
+- Released Version only Trial Version (Locked some Features). So Some ScriptKiddy cant just sell this bot.
 
 # Current State
 - Only work with Firefox.
@@ -56,4 +59,3 @@ views to a YouTube video.
 - Bot Detect if proxy need user login.
 - Bot Detect if Proxy Detected.
 - Bot Detect if Bot Detected by Youtube.
-
