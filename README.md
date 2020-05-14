@@ -6,7 +6,7 @@
 ![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
 [![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://opensource.org/licenses/GPL-3.0)
 
-## Basic Overview
+# Basic Overview
 
 **Note:** *This project was made for educational purposes. I am not liable for anything you decide to do with this bot*. 
 
@@ -18,38 +18,42 @@ views to a YouTube video.
 
 <br>
 
-## Current State
-This is Fork version by h4ckm3-id for linux and firefox driver only.
+# Current State
+- Only work with Firefox.
+- Work for Linux and Windows (64-bit).
 
-## Features 
+
+# Features 
 - Paid Proxy using APIKEY from pubproxy.com.
-- Free Proxy using lib from https://github.com/scidam/proxy-list.
+- Free Proxy using lib from dev.
+- Views using url.
+- Views using yt search engine (Best).
+- Views using link video from instagram profile.
+- Headless or no headless options.
+- Multi Thread (Multiple worker for the bot)
 
-### Running App 
-Type on console : 
-```console
-~$ wget https://raw.githubusercontent.com/triippz-tech/JYTB/JYTB-Linux-Firefox/run.sh
-~$ chmod +x run.sh
-~$ ./run.sh
-```
-++Wait the Script install all Dependencies and Start the bot for you :) ez life .++
 
-# Screenshot App Run on 6 vps linux  
+## Screenshot App Run on 6 vps linux  
 <p align="left"><img width=50% src="https://i.ibb.co/b3vKp6k/SS0594.jpg"></p>
 
-# Screenshot Traffic from yt video analystic
+## Screenshot Traffic from yt video analystic
 <p align="left"><img width=50% src="https://i.ibb.co/rfZFKfK/SS0595.jpg"></p>
 
-## Contributing
-Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/blob/master/docs/CONTRIBUTING.md) guidelines if you're interested in helping!
-#### Pending Features
-- Headless or Head Mode
-- Platform Independence
-- Auto-installation of proper drivers
-- Support for major browsers
-    - Firefox
-    - Chrome
-    - Opera
-    - Edge
-    - Safari
-- User-determined watch lengths for bots
+# Change-Log:
+## Version 2.0
+
+###  Added 
+- 3 Options for Viewing methods.
+- Headless options.
+- Latest user agents for Firefox.
+
+###  Bug Fixed
+- Proxy for Firefox Drivers.
+
+###  Improved
+- Complex handling for error.
+- Bot Detect if proxy down.
+- Bot Detect if proxy need user login.
+- Bot Detect if Proxy Detected.
+- Bot Detect if Bot Detected by Youtube.
+
