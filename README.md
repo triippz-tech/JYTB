@@ -10,11 +10,10 @@
 
 **Note:** *This project was made for educational purposes. I am not liable for anything you decide to do with this bot*. 
 
-JYTB is a multi-threaded Java application, which "views" a given YouTube video. The bot auto-rotates proxies if a proxy
+JYTBOT02 is a multi-threaded Java application, which "views" a given YouTube video. The bot auto-rotates proxies if a proxy
 has been determined to be dead, compromised, or the bot has finished watching the video. The goal is to provide unique 
 views to a YouTube video.
-<p align="center"><img width=50% src="https://i.ibb.co/4WkHBWP/jytb01.jpg"></p>
-<p align="center"><img width=50% src="https://i.ibb.co/fqDWn31/jytb02.jpg"></p>
+<p align="center"><img width=100% height=35% src="https://i.ibb.co/mN1P6tx/example.jpg"></p>
 
 <br>
 
