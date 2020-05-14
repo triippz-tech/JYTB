@@ -19,6 +19,7 @@ views to a YouTube video.
 
 # Important
 - Released Version only Trial Version (Locked some Features). So Some ScriptKiddy cant just sell this bot.
+- Join this Group Discord for Req full version : https://discord.gg/Y8VyYce
 
 # Current State
 - Only work with Firefox.
