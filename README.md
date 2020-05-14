@@ -35,6 +35,62 @@ views to a YouTube video.
 - Headless or no headless options.
 - Multi Thread (Multiple worker for the bot)
 
+# How to run this app
+
+## on LINUX
+
+### Ubuntu :
+- Download Firefox and Java
+```console
+sudo apt -y  install default-jdk firefox
+```
+- Download Gecko Driver 
+```console 
+sudo wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
+sudo tar -xvzf geckodriver*
+sudo chmod +x geckodriver
+sudo mv geckodriver /usr/local/bin/
+```
+- Download jar file from releases tab
+- run the jar 
+```console
+java -jar JYTBtrial.jar
+```
+### Debian/Kali : 
+- Download Firefox and Java
+Do instruction from this web
+Download java : 
+  https://docs.datastax.com/en/jdk-install/doc/jdk-install/installOpenJdkDeb.html
+Download firefox
+https://miloserdov.org/?p=2848
+- Download Gecko Driver 
+```console 
+sudo wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
+sudo tar -xvzf geckodriver*
+sudo chmod +x geckodriver
+sudo mv geckodriver /usr/local/bin/
+```
+- Download jar file from releases tab
+- run the jar 
+```console
+java -jar JYTBtrial.jar
+```
+
+### on Windows
+- Download Firefox (u can do it urself)
+- Download Java 
+  https://www.oracle.com/java/technologies/javase/jdk14-archive-downloads.html
+- Download geckodriver
+  https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-win64.zip
+- extract geckoDriver.exe to firefox directory
+  here ->  C:\\Program Files\\Mozilla Firefox\\
+- Download jar file from releases tab
+- run the jar 
+```console
+java -jar JYTBtrial.jar
+```
+
+
 
 ## Screenshot App Run on 6 vps linux  
 <p align="left"><img width=50% src="https://i.ibb.co/b3vKp6k/SS0594.jpg"></p>
