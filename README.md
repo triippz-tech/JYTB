@@ -38,4 +38,5 @@ Please take a look at our [contributing](https://github.com/triippz-tech/JYTB/bl
     - Opera
     - Edge
     - Safari
+    - Uc browser
 - User-determined watch lengths for bots
